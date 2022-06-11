@@ -1,0 +1,1 @@
+Kata rules https://codingdojo.org/kata/GameOfLife/
