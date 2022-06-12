@@ -3,14 +3,34 @@ import pytest
 
 from life import Grid
 
-grid_string = """
-Generation 1:
+grid_data = [("""Generation 1:
 4 8
 ........
 ....*...
 ...**...
 ........
-"""
+""",1,(4,8),3),
+("""Generation 7:
+5 10
+.....***..
+.*....**..
+*....*....
+.....*****
+.****.....
+""",7,(5,10),17),
+("""Generation 999:
+10 10
+.....***..
+.*....**..
+*....*....
+.....*****
+.****.....
+.....***..
+.*....**..
+*....*....
+.....*****
+.****.....
+""",999,(10,10),34)]
 
 
 class TestGridObjectCreation:
@@ -19,19 +39,23 @@ class TestGridObjectCreation:
         g = Grid()
         assert g
 
-    def test_from_string_returns_grid(self):
+    @pytest.mark.parametrize("grid_string", [s for s,gen,shape,alive in grid_data])
+    def test_from_string_returns_grid(self, grid_string):
         g = Grid.from_string( grid_string )
         assert isinstance(g, Grid)
 
-    def test_parse_grid_generation(self):
+    @pytest.mark.parametrize("grid_string, gen", [(s,gen) for s,gen,shape,alive in grid_data])
+    def test_parse_grid_generation(self, grid_string, gen):
         g = Grid.from_string( grid_string )
-        assert g.generation == 1
+        assert g.generation == gen
         
-    def test_parse_grid_shape(self):
+    @pytest.mark.parametrize("grid_string, shape, ", [(s,shape) for s,gen,shape,alive in grid_data])
+    def test_parse_grid_shape(self, grid_string, shape):
         g = Grid.from_string( grid_string )
-        assert g.shape == (4,8)
+        assert g.shape == shape
         
-    def test_parse_grid_living_cells(self):
+    @pytest.mark.parametrize("grid_string, alive, ", [(s,alive) for s,gen,shape,alive in grid_data])
+    def test_parse_grid_living_cells(self, grid_string, alive):
         g = Grid.from_string( grid_string )
-        assert g.alive() == 3
+        assert g.alive() == alive
 
