@@ -2,6 +2,7 @@
 # https://codingdojo.org/kata/GameOfLife/
 
 import re
+from life_grid import LifeGrid
 
 class LifeStatus:
     def __init__(self, generation = None, shape=None, matrix=None ):
@@ -10,16 +11,16 @@ class LifeStatus:
         self.matrix = matrix
 
     def alive(self):
-        return sum( [ sum(x) for x in self.matrix ] )
+        return self.matrix.alive_count()
 
     def __eq__(self, other):
-        return all( [ x==y for x,y in zip( self.matrix, other.matrix ) ] )
+        return self.matrix == other.matrix
 
     @classmethod
     def from_string( cls, s ):
         generation = cls.get_generation( s )
         shape = cls.get_shape( s )
-        matrix = cls.get_matrix( s )
+        matrix = LifeGrid.from_string( s )
         return cls( generation = generation, shape = shape, matrix = matrix )
 
     @staticmethod
@@ -38,19 +39,3 @@ class LifeStatus:
         rex = r'Generation \d+:\s(\d+)\s(\d+)'
         return tuple([int(s) for s in re.search(rex,s).groups()])
 
-    @staticmethod
-    def get_matrix( s ):
-        """get world matrix from a grid string, from lines like the following
-            ........
-            ....*...
-            ...**...
-            ........
-            returns it like a list of lists
-            [[0,0,0,0,0,0,0,0],
-             [0,0,0,0,1,0,0,0],
-             [0,0,0,1,1,0,0,0],
-             [0,0,0,0,0,0,0,0]]
-        """
-        rex = r'([\.|\*]+)\s'
-        lines = re.findall(rex, s)
-        return [[ 0 if c == '.' else 1 for c in line] for line in lines  ]
