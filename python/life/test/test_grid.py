@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 import re
 
-from life import Grid
+from grid import Grid
 
 grid_data = [("""Generation 1:
 4 8
