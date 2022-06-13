@@ -2,9 +2,9 @@ import pytest
 from pathlib import Path
 import re
 
-from grid import Grid
+from life_status import LifeStatus
 
-grid_data = [("""Generation 1:
+status_data = [("""Generation 1:
 4 8
 ........
 ....*...
@@ -33,54 +33,54 @@ grid_data = [("""Generation 1:
 .****.....
 """,999,(10,10),34)]
 
-grid_test_file_folder = Path('./test/grids')
-grid_files = list( grid_test_file_folder.glob('*.txt') )
+status_test_file_folder = Path('./test/grids')
+status_files = list( status_test_file_folder.glob('*.txt') )
 
-class TestGridObjectCreation:
+class TestStatusObjectCreation:
 
-    def test_grid_class(self):
-        g = Grid()
+    def test_status_class(self):
+        g = LifeStatus()
         assert g
 
 
-class TestGridFunctions:
+class TestStatusFunctions:
 
     def test_equal(self):
-        grid_string_0, _, _, _ = grid_data[0]
-        ga = Grid.from_string( grid_string_0 )
-        gb = Grid.from_string( grid_string_0 )
+        grid_string_0, _, _, _ = status_data[0]
+        ga = LifeStatus.from_string( grid_string_0 )
+        gb = LifeStatus.from_string( grid_string_0 )
         assert gb == ga
 
     def test_not_equal(self):
-        grid_string_0, _, _, _ = grid_data[0]
-        grid_string_1, _, _, _ = grid_data[1]
-        ga = Grid.from_string( grid_string_0 )
-        gb = Grid.from_string( grid_string_1 )
+        grid_string_0, _, _, _ = status_data[0]
+        grid_string_1, _, _, _ = status_data[1]
+        ga = LifeStatus.from_string( grid_string_0 )
+        gb = LifeStatus.from_string( grid_string_1 )
         assert ga != gb
 
-class TestGridFromString:
+class TestStatusFromString:
 
-    @pytest.mark.parametrize("grid_string", [s for s,gen,shape,alive in grid_data])
+    @pytest.mark.parametrize("grid_string", [s for s,gen,shape,alive in status_data])
     def test_from_string_returns_grid(self, grid_string):
-        g = Grid.from_string( grid_string )
-        assert isinstance(g, Grid)
+        g = LifeStatus.from_string( grid_string )
+        assert isinstance(g, LifeStatus)
 
-    @pytest.mark.parametrize("grid_string, gen", [(s,gen) for s,gen,shape,alive in grid_data])
+    @pytest.mark.parametrize("grid_string, gen", [(s,gen) for s,gen,shape,alive in status_data])
     def test_parse_grid_generation(self, grid_string, gen):
-        g = Grid.from_string( grid_string )
+        g = LifeStatus.from_string( grid_string )
         assert g.generation == gen
         
-    @pytest.mark.parametrize("grid_string, shape, ", [(s,shape) for s,gen,shape,alive in grid_data])
+    @pytest.mark.parametrize("grid_string, shape, ", [(s,shape) for s,gen,shape,alive in status_data])
     def test_parse_grid_shape(self, grid_string, shape):
-        g = Grid.from_string( grid_string )
+        g = LifeStatus.from_string( grid_string )
         assert g.shape == shape
         
-    @pytest.mark.parametrize("grid_string, alive, ", [(s,alive) for s,gen,shape,alive in grid_data])
+    @pytest.mark.parametrize("grid_string, alive, ", [(s,alive) for s,gen,shape,alive in status_data])
     def test_parse_grid_living_cells(self, grid_string, alive):
-        g = Grid.from_string( grid_string )
+        g = LifeStatus.from_string( grid_string )
         assert g.alive() == alive
 
-class TestGridFromFile:
+class TestStatusFromFile:
 
     @staticmethod
     def data_from_file( grid_file ):
@@ -93,20 +93,20 @@ class TestGridFromFile:
         #print( grid_string, g, s, a )
         return grid_string, g, s, a
 
-    @pytest.mark.parametrize("grid_file", grid_files)
+    @pytest.mark.parametrize("grid_file", status_files)
     def test_parse_grid_generation(self, grid_file ):
         grid_string, generation, shape, alive = self.data_from_file( grid_file )
-        g = Grid.from_string( grid_string )
+        g = LifeStatus.from_string( grid_string )
         assert g.generation == generation
 
-    @pytest.mark.parametrize("grid_file", grid_files)
+    @pytest.mark.parametrize("grid_file", status_files)
     def test_parse_grid_shape(self, grid_file ):
         grid_string, generation, shape, alive = self.data_from_file( grid_file )
-        g = Grid.from_string( grid_string )
+        g = LifeStatus.from_string( grid_string )
         assert g.shape == shape
 
-    @pytest.mark.parametrize("grid_file", grid_files)
+    @pytest.mark.parametrize("grid_file", status_files)
     def test_parse_grid_shape(self, grid_file ):
         grid_string, generation, shape, alive = self.data_from_file( grid_file )
-        g = Grid.from_string( grid_string )
+        g = LifeStatus.from_string( grid_string )
         assert g.alive() == alive

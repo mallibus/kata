@@ -3,7 +3,7 @@
 
 import re
 
-class Grid:
+class LifeStatus:
     def __init__(self, generation = None, shape=None, matrix=None ):
         self.generation = generation
         self.shape = shape
