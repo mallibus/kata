@@ -1,4 +1,3 @@
-import pyexpat
 import pytest
 from pathlib import Path
 import re

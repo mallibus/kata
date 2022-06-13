@@ -12,6 +12,9 @@ class Grid:
     def alive(self):
         return sum( [ sum(x) for x in self.matrix ] )
 
+    def __eq__(self, other):
+        return all( [ x==y for x,y in zip( self.matrix, other.matrix ) ] )
+
     @classmethod
     def from_string( cls, s ):
         generation = cls.get_generation( s )
