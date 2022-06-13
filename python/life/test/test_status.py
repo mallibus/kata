@@ -73,7 +73,7 @@ class TestStatusFromString:
     @pytest.mark.parametrize("grid_string, shape, ", [(s,shape) for s,gen,shape,alive in status_data])
     def test_parse_grid_shape(self, grid_string, shape):
         g = LifeStatus.from_string( grid_string )
-        assert g.shape == shape
+        assert g.shape() == shape
         
     @pytest.mark.parametrize("grid_string, alive, ", [(s,alive) for s,gen,shape,alive in status_data])
     def test_parse_grid_living_cells(self, grid_string, alive):

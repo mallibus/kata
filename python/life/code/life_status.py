@@ -5,26 +5,28 @@ import re
 from life_grid import LifeGrid
 
 class LifeStatus:
-    def __init__(self, generation = None, shape=None, matrix=None ):
+    def __init__(self, generation = None, matrix=None ):
         self.generation = generation
-        self.shape = shape
         self.matrix = matrix
 
     def alive(self):
         return self.matrix.alive_count()
+
+    def shape(self):
+        return self.matrix.get_shape()
 
     def __eq__(self, other):
         return self.matrix == other.matrix
 
     @classmethod
     def from_string( cls, s ):
-        generation = cls.get_generation( s )
-        shape = cls.get_shape( s )
+        generation = cls.parse_generation( s )
+        shape = cls.parse_shape( s )
         matrix = LifeGrid.from_string( s )
-        return cls( generation = generation, shape = shape, matrix = matrix )
+        return cls( generation = generation, matrix = matrix )
 
     @staticmethod
-    def get_generation( s ):
+    def parse_generation( s ):
         """get generation information from a grid string
         That is in the first line: "Generation 1:"
         """
@@ -32,7 +34,7 @@ class LifeStatus:
         return int( gen_str )
 
     @staticmethod
-    def get_shape( s ):
+    def parse_shape( s ):
         """get shape information from a grid string
         That is in the second line: "4 8" 
         """
