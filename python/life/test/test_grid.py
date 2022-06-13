@@ -42,6 +42,22 @@ class TestGridObjectCreation:
         g = Grid()
         assert g
 
+
+class TestGridFunctions:
+
+    def test_equal(self):
+        grid_string_0, _, _, _ = grid_data[0]
+        ga = Grid.from_string( grid_string_0 )
+        gb = Grid.from_string( grid_string_0 )
+        assert gb == ga
+
+    def test_not_equal(self):
+        grid_string_0, _, _, _ = grid_data[0]
+        grid_string_1, _, _, _ = grid_data[1]
+        ga = Grid.from_string( grid_string_0 )
+        gb = Grid.from_string( grid_string_1 )
+        assert ga != gb
+
 class TestGridFromString:
 
     @pytest.mark.parametrize("grid_string", [s for s,gen,shape,alive in grid_data])

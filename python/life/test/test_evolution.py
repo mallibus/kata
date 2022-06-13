@@ -18,20 +18,6 @@ output_grid = """Generation 2:
 ........
 """
 
-class TestGridFunctions:
-
-    @pytest.mark.parametrize("in_grid, out_grid", [(input_grid, output_grid)])
-    def test_equal(self, in_grid, out_grid):
-        g1 = Grid.from_string( in_grid )
-        g2 = Grid.from_string( in_grid )
-        assert g2 == g1
-
-    @pytest.mark.parametrize("in_grid, out_grid", [(input_grid, output_grid)])
-    def test_not_equal(self, in_grid, out_grid):
-        g1 = Grid.from_string( in_grid )
-        g2 = Grid.from_string( out_grid )
-        assert g2 != g1
-
 class TestEvolution:
 
     @pytest.mark.skip(reason = 'Evolution not yet implemented')
