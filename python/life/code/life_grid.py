@@ -18,6 +18,9 @@ class LifeGrid:
     def __eq__(self, other):
         return all( [ x==y for x,y in zip( self.matrix, other.matrix ) ] )
 
+    def __repr__(self):
+        return f'LifeGrid({self.matrix})'
+
     def get_shape(self):
         return ( len( self.matrix ), len( self.matrix[0]) )
 
@@ -47,7 +50,7 @@ class LifeGrid:
         for i in range(rows):
             r = [0] * cols
             for j in range(cols):
-                print( i,j )
+                #print( i,j )
                 if (i > 0) and (j > 0) :           r[j] += self.matrix[i-1][j-1]
                 if (i > 0) :                       r[j] += self.matrix[i-1][j]
                 if (i > 0) and (j < cols-1) :      r[j] += self.matrix[i-1][j+1]
@@ -58,3 +61,19 @@ class LifeGrid:
                 if (i < rows-1) and (j < cols-1) : r[j] += self.matrix[i+1][j+1]
             n.append( r )    
         return n
+
+    def step(self):
+        rows, cols = self.get_shape()
+        neighbors = self.neighbors()
+        step = []
+        for i in range(rows):
+            r = []
+            for j in range(cols):
+                if self.matrix[i][j] and neighbors[i][j] < 2 : r.append(0)
+                elif self.matrix[i][j] and neighbors[i][j] > 3 : r.append(0)
+                elif self.matrix[i][j] : r.append(1)
+                elif (self.matrix[i][j] == 0) and neighbors[i][j] == 3 : r.append(1)
+                else : r.append( self.matrix[i][j] )
+            step.append( r )    
+        return LifeGrid( matrix = step )
+        
