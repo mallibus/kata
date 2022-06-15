@@ -78,11 +78,9 @@ class TestGridFunctions:
     def test_neighbors(self, grid_string, expected_neighbors):
         grid = LifeGrid.from_string(grid_string)
         neighbors = grid.neighbors()
-        print( "Expected:\n",expected_neighbors )
-        print( "Actual:\n",neighbors )
         assert expected_neighbors == neighbors
 
-class TestGridFromString:
+class TestGridString:
 
     @pytest.mark.parametrize("grid_string", [s for s in grid_data])
     def test_from_string_returns_grid(self, grid_string):
@@ -93,3 +91,11 @@ class TestGridFromString:
     def test_from_bad_string_returns_none(self, grid_string):
         g = LifeGrid.from_string( grid_string )
         assert g is None
+
+    @pytest.mark.parametrize("grid_string", [s for s in grid_data])
+    def test_to_string(self, grid_string):
+        g = LifeGrid.from_string( grid_string )
+        s = LifeGrid.from_string( g.to_string() )
+        #print( f'\n{g.to_string()}' )
+        assert g == s
+

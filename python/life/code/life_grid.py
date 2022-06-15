@@ -7,9 +7,14 @@ def _all_equal_lenght( matrix ):
     """Check if the lengths of all the list in the input argument are equal"""
     return len( set( [len(r) for r in matrix] ) ) == 1
 
+def _all_zero_or_ones( matrix ):
+    """Check if all the elements of the lists are 0s and 1s"""
+    return { x for row in matrix for x in row }.issubset({0, 1})
+
 class LifeGrid:
     def __init__(self, matrix=None ):
-        assert _all_equal_lenght( matrix ),'Elements of the matrix shall have all the same length'
+        assert _all_equal_lenght( matrix ),f'Elements of the matrix shall have all the same length, got {matrix}'
+        assert _all_zero_or_ones( matrix ),f'Elements of the matrix shall be rows of 0s or 1s, got {matrix}'
         self.matrix = matrix
 
     def alive_count(self):
@@ -19,7 +24,7 @@ class LifeGrid:
         return all( [ x==y for x,y in zip( self.matrix, other.matrix ) ] )
 
     def __repr__(self):
-        return f'LifeGrid({self.matrix})'
+        return f'LifeGrid("{self.matrix}")'
 
     def get_shape(self):
         return ( len( self.matrix ), len( self.matrix[0]) )
@@ -43,6 +48,10 @@ class LifeGrid:
         if not _all_equal_lenght( matrix ):
             return None 
         return LifeGrid( matrix = matrix )
+
+    def to_string(self):
+        s = [''.join([ '.' if x == 0 else '*' for x in row ]) for row in self.matrix ]
+        return '\n'.join(s) + '\n'
 
     def neighbors(self):
         rows, cols = self.get_shape()
